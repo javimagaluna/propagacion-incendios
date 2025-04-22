@@ -7,7 +7,10 @@ NASA:
 - descarga .nc: https://search.earthdata.nasa.gov/
 - vizualizador con varias capas: https://worldview.earthdata.nasa.gov/
 - https://wiki.earthdata.nasa.gov/display/FIRMS/2022/07/14/Wildfire+detection+in+the+US+and+Canada+within+a+minute+of+satellite+observation
-
+- tutoriales uso https://ladsweb.modaps.eosdis.nasa.gov/learn
+- seccion de preguntas: https://forum.earthdata.nasa.gov/viewforum.php?f=7&DAAC=&Discipline=&Projects=87&ServicesUsage=&keywords=viirs%20l1b%20grid&startDate=&endDate=&bestAnswer=&noReplies=&tagMatch=any&searchWithin=&author=&modClaim=&sid=3cac7e33d39b8944ada04df2353a77fe&start=25
+- video https://ladsweb.modaps.eosdis.nasa.gov/learn/how-to-use-laads-daac-post-processing-tools/
+- modificacion manual: https://forum.earthdata.nasa.gov/viewtopic.php?t=4556&sid=af150f9526debb087703bbc8730c3b7d
 
 FIRMS:
 - descarga por fechas: https://firms.modaps.eosdis.nasa.gov/download/
