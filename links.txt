@@ -1,0 +1,20 @@
+
+gee:
+- coder con js para visualizar focos: https://code.earthengine.google.com/
+
+NASA:
+- snapshots (sacar imagenes segun dia): https://wvs.earthdata.nasa.gov/
+- descarga .nc: https://search.earthdata.nasa.gov/
+- vizualizador con varias capas: https://worldview.earthdata.nasa.gov/
+- https://wiki.earthdata.nasa.gov/display/FIRMS/2022/07/14/Wildfire+detection+in+the+US+and+Canada+within+a+minute+of+satellite+observation
+
+
+FIRMS:
+- descarga por fechas: https://firms.modaps.eosdis.nasa.gov/download/
+
+hora satellite
+https://oceandata.sci.gsfc.nasa.gov/overpass_pred/
+
+
+# articulo
+https://www.nature.com/articles/s41597-022-01343-0
