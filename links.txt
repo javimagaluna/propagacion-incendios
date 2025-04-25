@@ -21,3 +21,7 @@ https://oceandata.sci.gsfc.nasa.gov/overpass_pred/
 
 # articulo
 https://www.nature.com/articles/s41597-022-01343-0
+
+info de .nc VIIRS:
+- https://ladsweb.modaps.eosdis.nasa.gov/missions-and-measurements/products/VNP02IMG
+- https://ladsweb.modaps.eosdis.nasa.gov/api/v2/content/archives/Document%20Archive/Science%20Data%20Product%20Documentation/Product%20Generation%20Algorithms/NASARevisedVIIRSGeolocationATBD2014.pdf
