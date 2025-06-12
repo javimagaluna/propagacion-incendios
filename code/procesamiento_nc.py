@@ -1,6 +1,6 @@
 from pathlib import Path
 import re
-
+import os
 
 import rioxarray
 import geopandas as gpd
@@ -22,13 +22,13 @@ areas = gpd.read_file(path_areas)
 ###  identificar pares .nc
 regex = re.compile(r"A\d{7}\.\d{4}\.\d{3}")  ## expresion regular para mapear los archivos
 
-path_bandas = Path(r'data\EEUU\capa_viirs_6m_cuadrado')
-path_coords =  Path(r'data\EEUU\VNP03IMG_NRT')
+path_bandas = Path(r'datos-viirs\NOAA\BANDAS')#Path(r'data\EEUU\capa_viirs_6m_cuadrado')
+path_coords = Path(r'datos-viirs\NOAA\COORDS') #Path(r'data\EEUU\VNP03IMG_NRT')
 
 archivos_bandas = {regex.search(f.name).group(): f for f in path_bandas.glob("*.nc") if regex.search(f.name)}
 archivos_coords = {regex.search(f.name).group(): f for f in path_coords.glob("*.nc") if regex.search(f.name)}
 
-claves_comunes = set(archivos_bandas.keys()) & set(archivos_coords.keys())
+claves_comunes = archivos_bandas.keys() & archivos_coords.keys()
 
 pares = [(archivos_bandas[clave], archivos_coords[clave]) for clave in sorted(claves_comunes)]
 
@@ -54,12 +54,7 @@ pares = [(archivos_bandas[clave], archivos_coords[clave]) for clave in sorted(cl
 #     for clave in sorted(claves_comunes)
 # ])
 
-# ## guardamos en excel para revisar despues
-# ruta_salida = "archivos_viirs_suomi_descargados.xlsx"
-# with pd.ExcelWriter(ruta_salida) as writer:
-#     df_pares.to_excel(writer, sheet_name="Pares", index=False)
-#     df_sin_par_1.to_excel(writer, sheet_name="Sin_par_en_carpeta1", index=False)
-#     df_sin_par_2.to_excel(writer, sheet_name="Sin_par_en_carpeta2", index=False)
+
 
 
 ## functions ----------------------
@@ -69,8 +64,8 @@ def filtrar_por_areas_y_unir(gdf, areas):
     for id in range(len(areas)):
         zona = areas['zona'].iloc[id]
         geom = areas['geometry'].iloc[id]
-        gdf_filtrada = gdf[gdf.geometry.within(geom)].copy()
-        gdf_filtrada["zona"] = zona
+        gdf_filtrada = gdf[gdf.geometry.intersects(geom)].copy()
+        gdf_filtrada["zona"] = zona 
         gdfs_con_zona.append(gdf_filtrada)
 
     # Unir todo en un solo GeoDataFrame
@@ -83,13 +78,17 @@ def filtrar_por_areas_y_unir(gdf, areas):
 ## --------------------------------
 
 
-path_save = 'data/procesado/satellite_data/suomi'
+path_save = 'data/procesado/satellite_data/noaa'
 
 for bandas, coordenadas in pares:
     nombre_archivo = regex.search(str(bandas)).group()
     print('-----------')
     print(nombre_archivo)
     
+    if os.path.exists(f'{path_save}/merge_{nombre_archivo}.geojson'):
+        print(f"🟡 Archivo ya existe: {nombre_archivo}")
+        continue
+            
     coords = rioxarray.open_rasterio(coordenadas)
     data_nasa = rioxarray.open_rasterio(bandas)
     
