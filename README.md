@@ -19,7 +19,7 @@ code/              # Scripts
 #### Sobre algunos scripts
 
 - `code/download/descarga_api.py`: Código de conexión y descarga de datos satelitales de VIIRS. Para realizar descargas es necesario registrarse en la pág de LAADS y generar un token. Para mayor info, revisar [link](https://ladsweb.modaps.eosdis.nasa.gov/tools-and-services/api-v2/quick-start-guide/)
-- `code/download/descarga_gee.py`: Código de conexión y descarga de datos satelitales desde Google Earth Engine. 
+- `code/download/gee_DEM.py`: Código de descarga de datos satelitales DEM GLO30 desde Google Earth Engine. 
 - `code/procesamiento/procesamiento_nc.py`: Los archivos recolectados de LAADS provienen en formato .nc, en donde tenemos en un archivo las bandas y en otro la geolocalización de los datos, por lo que se generó un código que uniera los archivos para las zonas de interes. Esta unión de archivos calcula 
 - `code/procesamiento/grilla_healpix.py`: Genera grilla HealPix para cada área. Cada celda posee una resolución nivel 10 (156m). Esto se usa para tener una zona fija de observación, pues en cada pasada del satélite no obtenemos los mismos centroides (hay un leve desplazamiento).
 - `notebooks/puntao_de_calor.ipynb`: Visualización de centroides de anomalías térmicas desde FIRMS para áreas de EEUU. 
@@ -38,5 +38,5 @@ code/              # Scripts
 | VJ103IMG| NOAA-20 (JPSS-1) / VIIRS | Geolocalización VJ103IMG| 375 m / Dos veces al día (aprox.)|[Link](https://ladsweb.modaps.eosdis.nasa.gov/missions-and-measurements/products/VJ103IMG)|
 | VJ203IMG| NOAA-21 (JPSS-2) / VIIRS | Geolocalización VJ203IMG| 375 m / Dos veces al día (aprox.)|[Link](https://ladsweb.modaps.eosdis.nasa.gov/missions-and-measurements/products/VJ203IMG)|
 | DEM GLO30| Copernicus |Modelo digital de elevación global| ~30 m / - |[Link](https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_DEM_GLO30?hl=es-419)|
-| ERA5 (clima)| ECMWF| Reanálisis climático con variables de temperatura, humedad, viento, etc.  | ~ km / Horaria |[Link](https://cds.climate.copernicus.eu/)|
+| ERA5| ECMWF| Reanálisis climático con variables de temperatura, humedad, viento, etc.  | ~ km / Horaria |[Link](https://cds.climate.copernicus.eu/)|
 
