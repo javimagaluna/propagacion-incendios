@@ -108,17 +108,17 @@ password = os.environ['token']
 ## areas de interes
 path_areas = Path('data/procesado/zonas_incendios/areas_buffer.geojson')
 areas = gpd.read_file(path_areas)
-geom = areas[areas['zona'] == 'haoe_lead']['geometry'].iloc[0]
+geom = areas[areas['zona'] == 'area2']['geometry'].iloc[0]
 
 bbox_str, _ = polygon_to_bbox_format(geom)
 
 
 set = ['VNP02IMG', 'VNP03IMG', 'VJ102IMG', 'VJ103IMG', 'VJ202IMG', 'VJ203IMG']
 save = ['BANDAS', 'COORDS'] 
-satelite = 'NOAA'
+satelite = 'NOAA2'
 
 if __name__ == "__main__":
-    products = set[3]
+    products = set[5]
     start_date = "2025-04-12"
     end_date = "2025-04-22"
     bbox = bbox_str # "[BBOX]N35.8419 S35.77783 E-82.07657 W-82.16226"
