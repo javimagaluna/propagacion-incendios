@@ -39,5 +39,5 @@ code/              # Scripts
 | VJ103IMG| NOAA-20 (JPSS-1) / VIIRS | Geolocalización VJ103IMG| 375 m / Dos veces al día (aprox.)|[Link](https://ladsweb.modaps.eosdis.nasa.gov/missions-and-measurements/products/VJ103IMG)|
 | VJ203IMG| NOAA-21 (JPSS-2) / VIIRS | Geolocalización VJ203IMG| 375 m / Dos veces al día (aprox.)|[Link](https://ladsweb.modaps.eosdis.nasa.gov/missions-and-measurements/products/VJ203IMG)|
 | DEM GLO30| Copernicus |Modelo digital de elevación global| ~30 m / - |[Link](https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_DEM_GLO30?hl=es-419)|
-| ⚠️ tentativamente ERA5| ECMWF| Reanálisis climático con variables de temperatura, humedad, viento, etc.  | ~ km / Horaria |[Link](https://cds.climate.copernicus.eu/)|
+| ERA5-Land | ECMWF| Reanálisis climático con variables de temperatura, humedad, viento, etc.  | ~ 9 km / Horaria |[Link](https://developers.google.com/earth-engine/datasets/catalog/ECMWF_ERA5_LAND_HOURLY?hl=es-419)|
 
