@@ -62,7 +62,7 @@ def make_viirs_pixel(lat, lon, zenith_deg, azimuth_deg, size_nadir=375):
 #########################################################
 path_areas = Path('data/procesado/zonas_incendios/areas_buffer.geojson')
 areas = gpd.read_file(path_areas)
-satelite = 'suomi'
+satelite =  'noaa2'
 path_save = 'data/procesado/satellite_data/union'
 
 carpeta = f"data/procesado/satellite_data/{satelite}"
@@ -92,7 +92,7 @@ aux = gdf_zonas[gdf_zonas.eval('zona == "area2"')]
 aux.date_time.value_counts()
 
 ### filtrando por calidad
-aux = aux[aux['I04_quality_flags']== 0]
+aux = aux[aux['I04_quality_flags'].isin([0, 4, 8])]
 aux.date_time.value_counts()
 
 ### creando buffer
