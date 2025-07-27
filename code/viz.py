@@ -86,13 +86,14 @@ for id in range(len(archivos)):
 gdf_zonas = gpd.GeoDataFrame(pd.concat(gdf_zonas, ignore_index=True), crs=gdf_zonas[0].crs) 
 gdf_zonas.to_file(f'{path_save}/zonas_{satelite}.geojson')
 
+gdf_zonas = gpd.read_file(f'{path_save}/zonas_{satelite}.geojson')
 
 ### filtrando zona
 aux = gdf_zonas[gdf_zonas.eval('zona == "area2"')]
 aux.date_time.value_counts()
 
 ### filtrando por calidad
-aux = aux[aux['I04_quality_flags'].isin([0, 4, 8])]
+aux = aux[aux['I04_quality_flags'].isin([0, 2, 4, 8])]
 aux.date_time.value_counts()
 
 ### creando buffer
@@ -112,25 +113,25 @@ grilla = gpd.read_file('data/procesado/grilla/areas_grilla_healpix.geojson')
 
 
 # Crear carpeta temporal
-os.makedirs("frames", exist_ok=True)
+os.makedirs("frames2", exist_ok=True)
 
 # Escalar los valores una sola vez
 vmin = gdf_pixel_polys['I04'].min()
 vmax = gdf_pixel_polys['I04'].max()
 norm = Normalize(vmin=vmin, vmax=vmax)
 
-grilla_filt = grilla[grilla.eval('zona == "area2"')]
+grilla_filt = grilla#[grilla.eval('zona == "area2"')]
 
-tiempo = gdf_pixel_polys.date_time.unique()
-for fecha in tiempo:
-    print(fecha)
+tiempo = sorted(gdf_pixel_polys.date_time.unique())
+for i, fecha in enumerate(tiempo):
+
     gdf =  gdf_pixel_polys[gdf_pixel_polys['date_time'] == fecha]
     
     fig, ax = plt.subplots(figsize=(8, 6))
-    grilla_filt.plot(ax=ax, facecolor='none', edgecolor='gray', linewidth=0.5)
+    #grilla_filt.plot(ax=ax, facecolor='none', edgecolor='gray', linewidth=0.5)
     gdf.plot(ax=ax, column="I04", cmap='viridis', edgecolor='black', alpha=0.4, norm=norm)
     
-    ax.set_title(f"Incendios - {str(gdf['date_time'].iloc[0])}")
+    ax.set_title(f"Wildfire - {str(gdf['date_time'].iloc[0])}")
     ax.set_aspect("equal")
     ax.axis('off')
     
@@ -141,6 +142,68 @@ for fecha in tiempo:
     cbar.set_label("I04")
     
     # Guardar frame
-    frame_path = f"frames/frame_{gdf.date_file.iloc[0]}.png"
+    frame_path = f"frames2/frame_{i:03d}.png"
     plt.savefig(frame_path, bbox_inches='tight', dpi=150)
     plt.close()
+
+
+#############################################################
+
+
+import os
+import matplotlib.pyplot as plt
+import geopandas as gpd
+import imageio
+
+# Cargar y preparar
+gdf = gpd.read_file("data/procesado/satellite_data/union/suomi_las_maquinas.geojson")
+
+n_observaciones = gdf.date_time.value_counts().reset_index()
+
+gdf = gdf[~gdf.date_time.isin(n_observaciones[n_observaciones['count']<10000].date_time.to_list())]
+
+
+# Variable para color
+col_valor = "I05"
+vmin = gdf[col_valor].min()
+vmax = gdf[col_valor].max()
+
+# Fechas únicas
+fechas_unicas = sorted(gdf["date_time"].unique())
+os.makedirs("frames3", exist_ok=True)
+
+for i, fecha in enumerate(fechas_unicas):
+    fig, ax = plt.subplots(figsize=(8, 8))
+
+    aux = gdf_pixel_polys[gdf_pixel_polys["date_time"] == fecha]
+    aux.plot(
+        ax=ax,
+        column=col_valor,
+        cmap="viridis",
+        legend=True,
+        vmin=vmin,
+        vmax=vmax,
+        edgecolor=None,
+        markersize=5
+    )
+
+    ax.set_title(f"Wildfire band {col_valor} - {fecha}")
+    #ax.set_label('I04')
+    #ax.set_axis_off()
+    plt.tight_layout()
+    plt.savefig(f"frames3/frame_{i:03d}.png", dpi=150)
+    plt.close()
+    
+    
+    
+    
+imagenes = [f"frames3/{img}" for img in sorted(os.listdir("frames3")) if img.endswith(".png")]
+
+with imageio.get_writer("gif/suomi_las_maquinas_2017_filt_i05.gif", mode="I", duration=1000) as writer:
+    for filename in imagenes:
+        image = imageio.imread(filename)
+        writer.append_data(image)
+
+
+n_observaciones.date_time.dt.date.value_counts()
+
