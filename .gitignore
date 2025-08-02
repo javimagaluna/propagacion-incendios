@@ -1,5 +1,6 @@
 data/
 code/example/
 .env
-dat*
+datos-*
 doc*
+frames*

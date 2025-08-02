@@ -21,7 +21,7 @@ Las variables disponibles se describen a continuación:
 |                     | aspect     | DEM/GLO30  | Derivada de DEM, dirección hacia la cual se orienta la pendiente, en grados desde el norte geográfico (0° a 360°). |
 | **Meteorológica**    | u10   | ERA5-Land Hourly| Componente de viento este-oeste a 10 metros sobre el suelo. Positivos hacia el este. Se combina con v10 para estimar la velocidad del viento. |
 |                     | v10   | ERA5-Land Hourly | Componente de viento norte-sur a 10 metros sobre el suelo. Positivos hacia el norte. Se combina con u10 para estimar la velocidad del viento.  |
-|             | 2m temperature | ERA5-Land Hourly| Temperatura del aire a 2 metros sobre la superficie, en grados Celsius. Refleja las condiciones térmicas del entorno inmediato y nos permite estimar la humedad relativa.  |
+|             | 2m temperature | ERA5-Land Hourly| Temperatura del aire a 2 metros sobre la superficie, en grados Kelvin. Refleja las condiciones térmicas del entorno inmediato y nos permite estimar la humedad relativa.  |
 |                 | 2m dewpoint temperature | ERA5-Land Hourly | Temperatura de rocío a 2 metros, en Kelvin. Junto a la temperatura *2m temperature* permite estimar la humedad relativa. |
 
 

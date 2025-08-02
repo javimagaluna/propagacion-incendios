@@ -240,26 +240,26 @@ for zona in zonas:
     gdf_final.to_file(path_save+f'/era5_{zona}_healpix.geojson')
 
 
-
+gdf_final= gpd.read_file(path_save+f'/era5_{zona}_healpix.geojson')
 gdf_resultado = gdf_final.to_crs("EPSG:4326")
 
 ##########################################
 ## plot
 
-aux = gdf_final[gdf_final.date_time == '2025-04-18 08:00:00+00:00']
-gdf_filt = gdf[gdf.date_time == '2025-04-18 08:00:00+00:00']
+aux = gdf_final[gdf_final.date_time == '2025-04-13 07:00:00+00:00']
+#gdf_filt = gdf[gdf.date_time == '2025-04-21 19:00:00+00:00']
 
 import matplotlib.pyplot as plt
 
-fig, ax = plt.subplots(figsize=(8,8))
-gdf_filt.plot(column="dewpoint_temperature_2m", cmap="viridis", legend=True, ax=ax)
-plt.title("Pendiente por celda")
-plt.show()
+# fig, ax = plt.subplots(figsize=(8,8))
+# gdf_filt.plot(column="dewpoint_temperature_2m", cmap="viridis", legend=True, ax=ax)
+# plt.title("Pendiente por celda")
+# plt.show()
 
 
 fig, ax = plt.subplots(figsize=(8,8))
-aux.plot(column="dewpoint_temperature_2m_ponderado", cmap="viridis", legend=True, ax=ax)
-plt.title("Pendiente por celda")
+aux.plot(column="wind_speed_10m", cmap="viridis", legend=True, ax=ax)
+plt.title("velocidad del viento por celda")
 plt.show()
 
 
