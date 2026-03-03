@@ -4,3 +4,9 @@ code/example/
 datos-*
 doc*
 frame*
+.Rproj.user
+gif/*
+modelos/*
+.RD*
+.Rhistory
+*.Rproj

@@ -7,7 +7,7 @@ from shapely.geometry import Point
 
 # functions --------------------------------------------------
 # grilla de un 1km para extraer puntos 
-def crear_grilla_regular(gdf, resolucion_m=1000):
+def crear_grilla_regular(gdf, resolucion_m=9000):
     bounds = gdf.total_bounds
     xmin, ymin, xmax, ymax = bounds
     resolucion_grados = resolucion_m / 111320
@@ -28,7 +28,7 @@ def crear_grilla_regular(gdf, resolucion_m=1000):
     return gpd.GeoDataFrame(puntos, crs="EPSG:4326")
 
 
-def get_era5_land_hourly(grilla_ee, fecha):
+def get_era5_land_hourly(grilla_ee, fecha, scale = 9000):
 
     if isinstance(fecha, str):
         fecha = ee.Date(fecha)
@@ -41,7 +41,7 @@ def get_era5_land_hourly(grilla_ee, fecha):
     # sample region
     muestra = era5.sampleRegions(
         collection=grilla_ee,
-        scale=1000,  # 1km
+        scale=scale,  # 9km
         geometries=True
     )
 
@@ -62,8 +62,8 @@ ee.Authenticate()
 ee.Initialize(project='tesis-incendios')
 
 # load poligono -----
-incendio = 'santa_ana'
-satelite = 'noaa1'
+incendio = 'santa_ana'#'las_maquinas'
+satelite = 'suomi'
 
 ## get fechas
 data = gpd.read_file(f'data/procesado/satellite_data/union/{satelite}_{incendio}.geojson')
@@ -71,7 +71,7 @@ fechas = data['date_time'].drop_duplicates().reset_index(drop=True)
 #fechas2 = data['date_time'].drop_duplicates().reset_index(drop=True)
 #fechas = pd.concat([fechas, fechas2], axis =0)
 
-#fechas.drop_duplicates(inplace=True)
+fechas.drop_duplicates(inplace=True)
 # del data
 
 ## area
@@ -82,7 +82,7 @@ gdf = gdf.to_crs("EPSG:4326")
 geometry = gdf.union_all()
 
 
-## creando grillo 1km ----
+## creando grilla 9km ----
 grilla = crear_grilla_regular(gdf)
 
 ## grilla a feature collection gee
@@ -113,4 +113,4 @@ for fecha in fechas:
 gdf_final = pd.concat(lista_gdf, ignore_index=True)
 gdf_final = gpd.GeoDataFrame(gdf_final, geometry='geometry', crs=lista_gdf[0].crs).drop(['id'], axis = 1)
 
-gdf_final.to_file(f'data/procesado/era5/era5_{incendio}_puntos.geojson')
+gdf_final.to_file(f'data/procesado/era5/era5_{incendio}_puntos_9km.geojson')

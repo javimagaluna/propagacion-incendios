@@ -7,7 +7,8 @@ import geopandas as gpd
 from shapely.geometry import Polygon, MultiPolygon
 import urllib.parse
 
-#####################################
+##############################################
+# functions ----------------------------------
 
 def polygon_to_bbox_format(geom):
     """
@@ -19,8 +20,6 @@ def polygon_to_bbox_format(geom):
         # Usamos solo el poligono más grande
         largest = max(geom.geoms, key=lambda g: g.area)
         coords = list(largest.exterior.coords)
-    else:
-        raise ValueError("El objeto debe ser un Polygon o MultiPolygon de Shapely")
 
     # Extraer latitudes y longitudes
     lons = [pt[0] for pt in coords]
@@ -67,7 +66,7 @@ def download_laads_files_json(products, start_date, end_date, bbox, output_folde
         
         response = requests.get(base_url, headers=headers, params=params)
         if response.status_code != 200:
-            print(f"⚠️ Error al consultar la API (página {page}): {response.status_code}")
+            print(f"⚠️ Error al consultar la API (pag {page}): {response.status_code}")
             print(response.text)
             break
 
@@ -106,24 +105,30 @@ load_dotenv()
 password = os.environ['token']
 
 ## areas de interes
-path_areas = Path('data/procesado/zonas_incendios/areas_buffer.geojson')
+path_areas = Path('data/procesado/areas/santa_ana_2023.geojson')
 areas = gpd.read_file(path_areas)
-geom = areas[areas['zona'] == 'area2']['geometry'].iloc[0]
+gdf_latlon = areas.to_crs(epsg=4326)
+geom = gdf_latlon.geometry.iloc[0]
+#geom = areas[areas['zona'] == 'area2']['geometry'].iloc[0]
 
 bbox_str, _ = polygon_to_bbox_format(geom)
 
 
-set = ['VNP02IMG', 'VNP03IMG', 'VJ102IMG', 'VJ103IMG', 'VJ202IMG', 'VJ203IMG']
+set = ['VNP02IMG', 'VNP03IMG', 'VJ102IMG', 'VJ103IMG', 'VJ202IMG', 'VJ203IMG'] #, 'VNP14IMG'
 save = ['BANDAS', 'COORDS'] 
-satelite = 'NOAA2'
+satelite = 'SUOMI'
 
 if __name__ == "__main__":
-    products = set[5]
-    start_date = "2025-04-12"
-    end_date = "2025-04-22"
-    bbox = bbox_str # "[BBOX]N35.8419 S35.77783 E-82.07657 W-82.16226"
-    output_dir = f'datos-viirs/{satelite}/{save[1]}'
+    products = set[1]
+    start_date = "2023-01-29"
+    end_date = "2023-03-06"
+    bbox = bbox_str # "[BBOX]N35.8419 S35.77783 E-82.07657 W-82.16S226"
+    output_dir = f'datos-viirs/{satelite}/active_fire'
     token = password
 
     download_laads_files_json(products, start_date, end_date, bbox, output_dir, token)
 
+
+## incendio las maquinas
+# start_date = "2017-01-15"
+# end_date = "2017-02-05" 

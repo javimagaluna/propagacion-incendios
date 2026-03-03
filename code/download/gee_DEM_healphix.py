@@ -6,8 +6,7 @@ import geopandas as gpd
 ee.Authenticate()  
 ee.Initialize(project='tesis-incendios')
 
-#####################################################################################
-
+###############################################################
 #### functions
 
 def process_image_cells(image, fc):
