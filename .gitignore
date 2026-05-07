@@ -1,12 +1,17 @@
-data/
-code/example/
 .env
-datos-*
-doc*
-frame*
 .Rproj.user
-gif/*
-modelos/*
 .RD*
 .Rhistory
 *.Rproj
+
+## folders
+data/
+code/example/
+gif/*
+modelos/*
+*no_usado/
+datos-*
+doc*
+frame*
+
+__p*
